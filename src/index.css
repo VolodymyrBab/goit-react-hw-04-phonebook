@@ -13,3 +13,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+button {
+  cursor: pointer;
+}
+
+.container {
+  padding: 30px;
+  margin: 20px auto;
+  width: 460px;
+  height: 80vh;
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 0px 0px 40px -1px rgb(122, 100, 70);
+  overflow: scroll;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
