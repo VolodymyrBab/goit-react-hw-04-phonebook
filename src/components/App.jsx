@@ -1,20 +1,38 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import '../../src/index.css';
 import { ContactList } from "./ContactList/ContactList";
-import { ContactForm } from "./СontactForm/ContactForm";
+import { ContactForm } from "./ContactForm/ContactForm";
 import { Filter } from "./Filter/Filter";
 import data from "../data.json";
-export  class App extends Component {
+export  default function App() {
+  
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
+  
+  const localData = localStorage.getItem ('contacts')
 
-  state = {
-    contacts: [],
-    filter: '',
-  } 
-
+  useEffect(() => {
+    let parsedContacts = [];
+    if (localStorage.getItem(localData)) {
+      parsedContacts = JSON.parse(localStorage.getItem(localData));
+    }
+    if (parsedContacts.length !== 0) {
+      setContacts(parsedContacts);
+    }
+  }, []);
+  
+  
+  // componentDidMount() {
+    
+  //   if (localData) this.setState({ contacts: JSON.parse(localData)})
+  //   else this.setState({contacts: data})
+  
+  // }
+  
   onAddContact = (obj) => {
     const equalName = this.state.contacts.find(
       element => element.name.toLowerCase() === obj.name.toLowerCase()
-    );
+      );
     if (equalName) return alert(`${equalName.name} is already in contacts.`)
     this.setState(prevState => ({
       contacts: [...prevState.contacts, obj],
@@ -42,25 +60,19 @@ export  class App extends Component {
     }));
   }
 
-  componentDidMount() {
-    const localData = localStorage.getItem ('contacts')
-    if (localData) this.setState({ contacts: JSON.parse(localData)})
-    else this.setState({contacts: data})
-  
-  }
 
 
-  componentDidUpdate(_, prevState) {
-    if(prevState.contacts) {
-      prevState.contacts.length !== this.state.contacts.length && 
-      localStorage.setItem('contacts', JSON.stringify (this.state.contacts))  
-      console.log('update*')
-    }
-  }
+  // componentDidUpdate(_, prevState) {
+  //   if(prevState.contacts) {
+  //     prevState.contacts.length !== this.state.contacts.length && 
+  //     localStorage.setItem('contacts', JSON.stringify (this.state.contacts))  
+  //     console.log('update*')
+  //   }
+  // }
   
 
-  render() {
-    const contacts = this.filteredContacts();
+ 
+    // const contacts = this.filteredContacts();
 
       return (
         <div className="container">
@@ -77,6 +89,6 @@ export  class App extends Component {
             <ContactList contacts={contacts} deleteContact={this.deleteContact} />
           </div>
         </div>
-      )
-  }
+      
+  );
 }
