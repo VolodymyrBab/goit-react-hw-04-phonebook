@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import '../../src/index.css';
 import { ContactList } from "./ContactList/ContactList";
-import { ContactForm } from "./ContactForm/ContactForm";
-import { Filter } from "./Filter/Filter";
+import  ContactForm  from "./ContactForm/ContactForm";
+import  Filter  from "./Filter/Filter";
 import data from "../data.json";
 export  default function App() {
   
@@ -17,78 +17,49 @@ export  default function App() {
       parsedContacts = JSON.parse(localStorage.getItem(localData));
     }
     if (parsedContacts.length !== 0) {
-      setContacts(parsedContacts);
+      setContacts(data);
     }
   }, []);
   
   
-  // componentDidMount() {
-    
-    //   if (localData) this.setState({ contacts: JSON.parse(localData)})
-    //   else this.setState({contacts: data})
-    
-    // }
+
     
     useEffect(() => {
       const prepareContacts = JSON.stringify(contacts);
         localStorage.setItem(localData, prepareContacts);
     }, [contacts])
     
-      // componentDidUpdate(_, prevState) {
-      //   if(prevState.contacts) {
-      //     prevState.contacts.length !== this.state.contacts.length && 
-      //     localStorage.setItem('contacts', JSON.stringify (this.state.contacts))  
-      //     console.log('update*')
-      //   }
-      // }
-
+  
 
 
   const onAddContact = (obj) => {
-      const equalName = this.state.contacts.find(element => element.name.toLowerCase() === obj.name.toLowerCase());
+      const equalName = contacts.find(element => element.name.toLowerCase() === obj.name.toLowerCase());
       if (equalName) return alert(`${equalName.name} is already in contacts.`)
-      this.setState(prevState => ({
-      contacts: [...prevState.contacts, obj],
-    }))
+      setContacts(prevState => ([...prevState, obj]))
   }
   
-  filteredContacts = () => {
-    const { filter, contacts } = this.state;
-    const normalizedValue = filter.toLowerCase();
+  const changeFilter = (filterValue) => {
+    setFilter(filterValue)
+  }
+
   
-    const filteredContactsArray = contacts.filter(contact =>
+    
+  const normalizedValue = filter.toLowerCase();
+  
+  const filteredContactsArray = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedValue));
-    // console.log(filteredContactsArray);
-    return filteredContactsArray;
-  }
-  // filteredContacts = () => {
-  //   const { filter, contacts } = this.state;
-  //   const normalizedValue = filter.toLowerCase();
+    
   
-  //   const filteredContactsArray = contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedValue));
-  //   // console.log(filteredContactsArray);
-  //   return filteredContactsArray;
-  // }
   
- 
-  changeFilter = filter => {
-    this.setState({ filter: filter.toLowerCase() });
-  };
-  
-  deleteContact = (id) => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id)
-    }));
+  const deleteContact = (id) => {
+    setContacts(prevState => (prevState.filter(contact => contact.id !== id)));
   }
 
 
   
 
- 
-    const contactsFilter = filteredContacts();
 
-      return (
+  return (
         <div className="container">
     
           <div>
@@ -100,7 +71,7 @@ export  default function App() {
             <h2 className="title">Contacts</h2>
             <Filter onChange={changeFilter} />
 
-            <ContactList contacts={contactsFilter} deleteContact={deleteContact} />
+            <ContactList contacts={filteredContactsArray} deleteContact={deleteContact} />
           </div>
         </div>
       
