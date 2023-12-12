@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import '../../src/index.css';
 import { ContactList } from "./ContactList/ContactList";
-import  ContactForm  from "./ContactForm/ContactForm";
-import  Filter  from "./Filter/Filter";
+import  ContactForm  from "./СontactForm/ContactForm";
+import  {Filter}  from "./Filter/Filter";
 import data from "../data.json";
+
+const localData = 'contacts';
+
 export  default function App() {
   
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
   
-  const localData = 'contacts';
+ 
   
   useEffect(() => {
     let parsedContacts = [];
@@ -35,7 +38,7 @@ export  default function App() {
   const onAddContact = (obj) => {
       const equalName = contacts.find(element => element.name.toLowerCase() === obj.name.toLowerCase());
       if (equalName) return alert(`${equalName.name} is already in contacts.`)
-      setContacts(prevState => ([...prevState, obj]))
+      else  {setContacts(prevState => ([...prevState, obj]))}
   }
   
   const changeFilter = (filterValue) => {
@@ -65,7 +68,7 @@ export  default function App() {
           <div>
             <h2 className="title">Phonebook</h2>
             
-            <ContactForm onAddContact={onAddContact}/>
+            <ContactForm onSubmit = {onAddContact}/>
           </div>
           <div>
             <h2 className="title">Contacts</h2>
