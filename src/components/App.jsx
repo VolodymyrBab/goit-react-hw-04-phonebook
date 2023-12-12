@@ -15,22 +15,21 @@ export  default function App() {
  
   
   useEffect(() => {
-    let parsedContacts = [];
+    let parsedContacts = data;
     if (localStorage.getItem(localData)) {
       parsedContacts = JSON.parse(localStorage.getItem(localData));
     }
     if (parsedContacts.length !== 0) {
-      setContacts(data);
-    }
+      setContacts(parsedContacts);
+    };
   }, []);
   
   
-
-    
+      
     useEffect(() => {
       const prepareContacts = JSON.stringify(contacts);
         localStorage.setItem(localData, prepareContacts);
-    }, [contacts])
+    }, [contacts]);
     
   
 
@@ -38,7 +37,7 @@ export  default function App() {
   const onAddContact = (obj) => {
       const equalName = contacts.find(element => element.name.toLowerCase() === obj.name.toLowerCase());
       if (equalName) return alert(`${equalName.name} is already in contacts.`)
-      else  {setContacts(prevState => ([...prevState, obj]))}
+      else  {setContacts(prevState => ([obj, ...prevState]))}
   }
   
   const changeFilter = (filterValue) => {
